@@ -16,6 +16,16 @@ This paper will be presented at the ICML '20 Workshop on [Uncertainty and Robust
 * For HMC, we use https://github.com/AdamCobb/hamiltorch.
 * Some metrics incorporate code from https://github.com/bayesgroup/pytorch-ensembles
 
+Please cite our work if you find this approach useful in your research:
+```bibtex
+@article{Vadera2020URSABench,
+  title={URSABench: Comprehensive Benchmarking of Approximate Bayesian Inference Methods for Deep Neural Networks},
+  author={Vadera, Meet P. and Cobb, Adam D. and Jalaian, Brian and Marlin, Benjamin M.},
+  journal={arXiv preprint arXiv:2007.04466},
+  year={2020}
+}
+```
+
 ## Acknowledgements
 
 Research reported in this paper was sponsored in part by the CCDC Army Research Laboratory under Cooperative Agreement W911NF-17-2-0196 (ARL IoBT CRA). The views and conclusions contained in this document are those of the authors and should not be interpreted as representing the official policies, either expressed or implied, of the Army Research Laboratory or the U.S. Government. The U.S. Government is authorized to reproduce and distribute reprints for Government purposes notwithstanding any copyright notation herein.
