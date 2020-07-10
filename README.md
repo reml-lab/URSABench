@@ -5,15 +5,16 @@ This paper will be presented at the ICML '20 Workshop on [Uncertainty and Robust
 
 ## Code references:
 
-Model implementations:
+* Model implementations:
   - PreResNet: https://github.com/bearpaw/pytorch-classification
   - WideResNet: https://github.com/meliketoy/wide-resnet.pytorch
 
-The included inference schemes have been adapted from the following repos:
+* The included inference schemes have been adapted from the following repos:
   - SWA https://github.com/timgaripov/swa/
   - SWAG https://github.com/wjmaddox/swa_gaussian
 
-For HMC, we use https://github.com/AdamCobb/hamiltorch
+* For HMC, we use https://github.com/AdamCobb/hamiltorch.
+* Some metrics incorporate code from https://github.com/bayesgroup/pytorch-ensembles
 
 ## Acknowledgements
 
