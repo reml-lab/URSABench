@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# npy files
+*.npy
+# pytorch models
+*.pt
+# pytorch environment
+/URSABenchenv/
+# log files
+*.log
+*.out
+*.err
