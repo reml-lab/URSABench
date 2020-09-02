@@ -56,6 +56,7 @@ class Adversarial_attack(_Task):
             else:
                 raise NotImplementedError
 
+        output_adversarial_examples = list()
         start_idx = 0
     
         for batch_idx, (batch_data, batch_labels) in enumerate(self.data_loader):
@@ -81,19 +82,19 @@ class Adversarial_attack(_Task):
                     util.compute_predictive_entropy(util.central_smoothing(
                         F.log_softmax(batch_logits, dim=-1).exp_().cpu()))
                 models.to('cpu')
+
+            targets_this_batch = self.targets[start_idx: end_idx]
+            
+            # Keeping reduction method 'none' to get loss
+            # contibution of every data-case individually so that gradient
+            # will be calculated properly as per formula of FGSM
+            log_likelihood = F.nll_loss(torch.log(self.ensemble_proba[start_idx: end_idx]/self.num_samples_collected), targets_this_batch, reduction='none')
+            log_likelihood.backward()
+            batch_data = batch_data + self.l_inf_norm * batch_data.grad.detach().sign()
+            output_adversarial_examples.append(batch_data)
             start_idx = end_idx
 
-        '''
-        Keeping reduction method 'none' to get loss contibution of every data-case individually so that gradient
-        will be calculated properly as per formula of FGSM
-        '''
-        log_likelihood = F.nll_loss(torch.log(self.ensemble_proba/self.num_samples_collected), self.targets, reduction='none')
-        log_likelihood.backward()
-        output_adversarial_examples = list()
-
-        for batch_idx, (batch_data, batch_labels) in enumerate(self.data_loader):
-            batch_data = batch_data + self.l_inf_norm * batch_data.grad.sign
-            output_adversarial_examples.append(batch_data)
+        output_adversarial_examples = torch.cat(output_adversarial_examples)
 
         perf_metrics = None
         if output_performance:
