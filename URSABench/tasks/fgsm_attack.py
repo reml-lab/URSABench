@@ -62,7 +62,6 @@ class FGSM_attack(_Task):
             else:
                 # Here models indicates a single model.
                 models.to(self.device)
-                models.eval()
                 batch_logits = models(batch_data)
                 self.ensemble_proba[start_idx: end_idx] += F.log_softmax(batch_logits, dim=-1).exp_().cpu()
                 models.to('cpu')
