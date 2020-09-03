@@ -16,7 +16,6 @@ class FGSM_attack(_Task):
         self.device = device
         self.num_samples_collected = 0
         self.ensemble_proba = torch.zeros(len(self.data_loader.dataset), num_classes)
-        self.expected_data_uncertainty = torch.zeros(len(self.data_loader.dataset))
         self.targets = list()
         for batch_idx, (batch_data, batch_labels) in enumerate(self.data_loader):
             self.targets.append(batch_labels)
@@ -26,12 +25,14 @@ class FGSM_attack(_Task):
         self.num_samples_collected = 0
         self.ensemble_proba = torch.zeros(len(self.data_loader.dataset), self.num_classes)
 
-    def generate_FGSM_adversarial_examples(self, models, smoothing=True):
+    def generate_FGSM_adversarial_examples(self, models):
         """
-        Inout : Models
-        [Use Input_example, attack_type, variables_defining_attack]
-        Output : adeversarial examples, performance metrics
-        Note : For now only FGSM is implemented
+        Input : Models
+        [Used Class Variables:
+            -  Input_example,
+            -  variables defining pgd attack
+        ]
+        Output : adeversarial examples
         """
 
         if isinstance(models, list):
@@ -52,17 +53,18 @@ class FGSM_attack(_Task):
         for batch_idx, (batch_data, batch_labels) in enumerate(self.data_loader):
             end_idx = start_idx + len(batch_data)
             batch_data = batch_data.to(self.device)
-            batch_data.requires_grad = True
+            delta = torch.zeros_like(batch_data, requires_grad=True)
+
             if isinstance(models, list):
                 for model_idx, model in enumerate(models):
                     model.to(self.device)
-                    batch_logits = model(batch_data)
+                    batch_logits = model(batch_data + delta)
                     self.ensemble_proba[start_idx: end_idx] += F.log_softmax(batch_logits, dim=-1).exp_().cpu()
                     model.to('cpu')
             else:
                 # Here models indicates a single model.
                 models.to(self.device)
-                batch_logits = models(batch_data)
+                batch_logits = models(batch_data + delta)
                 self.ensemble_proba[start_idx: end_idx] += F.log_softmax(batch_logits, dim=-1).exp_().cpu()
                 models.to('cpu')
 
@@ -73,7 +75,7 @@ class FGSM_attack(_Task):
             # will be calculated properly as per formula of FGSM
             log_likelihood = F.nll_loss(torch.log(self.ensemble_proba[start_idx: end_idx]/self.num_samples_collected), targets_this_batch, reduction='none')
             log_likelihood.backward()
-            batch_data = batch_data + self.l_inf_norm * batch_data.grad.detach().sign()
+            batch_data = batch_data + self.l_inf_norm * delta.grad.detach().sign()
             output_adversarial_examples.append(batch_data)
             start_idx = end_idx
 
