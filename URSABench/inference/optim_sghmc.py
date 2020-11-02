@@ -46,20 +46,21 @@ class optimSGHMC(Optimizer):
                 d_p = p.grad
                 if weight_decay != 0:
                     d_p = d_p.add(p, alpha=weight_decay / num_training_samples)
-                if add_langevin_noise:
-                    d_p.add(torch.randn_like(d_p) * math.sqrt(2) / (num_training_samples * math.sqrt(group['lr'])))
                 if momentum != 0:
                     param_state = self.state[p]
                     if 'momentum_buffer' not in param_state:
                         buf = param_state['momentum_buffer'] = torch.clone(d_p).detach()
                     else:
                         buf = param_state['momentum_buffer']
-                        buf.mul_(momentum).add_(d_p, alpha=1 - dampening)
+                        buf.mul_(momentum).add_(d_p, alpha=-group['lr'])
                     if nesterov:
                         d_p = d_p.add(buf, alpha=momentum)
                     else:
                         d_p = buf
-
-                p.add_(d_p, alpha=-group['lr'])
-
+                else:
+                    d_p = d_p.mul(-group['lr'])
+                if add_langevin_noise:
+                    d_p = d_p.add(torch.randn_like(d_p) * math.sqrt(2 * (1 - momentum) * group['lr']) / (num_training_samples))
+                p.add_(d_p)
+                param_state['momentum_buffer'] = d_p
         return loss

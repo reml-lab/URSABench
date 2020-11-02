@@ -4,7 +4,7 @@ import torch
 import wandb
 from torch.optim.lr_scheduler import CosineAnnealingLR, OneCycleLR
 
-from URSABench.util import get_loss_criterion, reset_model
+from mctestbed.util import get_loss_criterion, reset_model
 from . import optimSGHMC
 from .inference_base import _Inference
 
@@ -41,11 +41,11 @@ class SGHMC(_Inference):
         self.burnt_in = False
         self.epochs_run = 0
         self.lr_final = self.lr / 2
-        # self.optimizer_scheduler = CosineAnnealingLR(optimizer=self.optimizer, T_max=
-        # (self.burn_in_epochs + self.num_samples), eta_min=self.lr_final)
-        self.optimizer_scheduler = OneCycleLR(optimizer=self.optimizer, max_lr=self.lr * 5,
-                                              steps_per_epoch=len(self.train_loader),
-                                              epochs=self.burn_in_epochs + self.num_samples)
+        self.optimizer_scheduler = CosineAnnealingLR(optimizer=self.optimizer, T_max=
+        (self.burn_in_epochs + self.num_samples),)
+#        self.optimizer_scheduler = OneCycleLR(optimizer=self.optimizer, max_lr=self.lr*5,
+#                                               steps_per_epoch=len(self.train_loader),
+#                                               epochs=self.burn_in_epochs + self.num_samples, cycle_momentum=False)
 
     def update_hyp(self, hyperparameters):
         self.lr = hyperparameters['lr']
@@ -80,8 +80,11 @@ class SGHMC(_Inference):
                     loss = self.loss_criterion(batch_data_logits, batch_labels)
                     loss.backward()
                     total_epoch_train_loss += loss.item() * len(batch_data)
-                    self.optimizer.step(add_langevin_noise=True)
-                    self.optimizer_scheduler.step()
+                    if epoch > 0.8 * epochs or self.burnt_in:
+                        self.optimizer.step(add_langevin_noise=True)
+                    else:
+                        self.optimizer.step(add_langevin_noise=False)
+                self.optimizer_scheduler.step()
                 if debug_val_loss:
                     avg_val_loss = self.compute_val_loss(val_loader)
                     avg_train_loss = total_epoch_train_loss / self.dataset_size
