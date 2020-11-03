@@ -1,4 +1,4 @@
-__version__ = '0.0.0.dev1-private'
+__version__ = '0.0.0.dev1'
 
 from .util import set_random_seed
 from .hyperOptimization import GridSearch, BayesOpt

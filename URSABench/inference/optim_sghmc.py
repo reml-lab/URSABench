@@ -50,6 +50,7 @@ class optimSGHMC(Optimizer):
                     param_state = self.state[p]
                     if 'momentum_buffer' not in param_state:
                         buf = param_state['momentum_buffer'] = torch.clone(d_p).detach()
+                        buf.mul_(momentum).add_(d_p, alpha=-group['lr'])
                     else:
                         buf = param_state['momentum_buffer']
                         buf.mul_(momentum).add_(d_p, alpha=-group['lr'])
@@ -62,5 +63,6 @@ class optimSGHMC(Optimizer):
                 if add_langevin_noise:
                     d_p = d_p.add(torch.randn_like(d_p) * math.sqrt(2 * (1 - momentum) * group['lr']) / (num_training_samples))
                 p.add_(d_p)
-                param_state['momentum_buffer'] = d_p
+                if momentum != 0:
+                    param_state['momentum_buffer'] = d_p
         return loss

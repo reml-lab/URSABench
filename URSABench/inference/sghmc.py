@@ -4,7 +4,7 @@ import torch
 import wandb
 from torch.optim.lr_scheduler import CosineAnnealingLR, OneCycleLR
 
-from mctestbed.util import get_loss_criterion, reset_model
+from URSABench.util import get_loss_criterion, reset_model
 from . import optimSGHMC
 from .inference_base import _Inference
 

@@ -2,8 +2,4 @@ from .imagenet_resnet import *
 from .mlp import *
 from .preresnet import *
 from .resnet import *
-from .tin_preresnet import *
-from .tin_resnet import *
-from .tin_wideresnet import *
-from .vgg import *
 from .wideresnet import *
