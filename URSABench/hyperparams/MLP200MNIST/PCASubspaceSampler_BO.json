@@ -1,0 +1,1 @@
+{"lr_init": 0.04393735155463219, "swag_lr": 0.0017009282018989325, "swag_wd": 0.00039999998989515007, "swag_momentum": 0.5357643365859985, "swag_burn_in_epochs": 50, "num_samples": 30, "num_swag_iterates": 50, "rank": 20, "max_rank": 20, "temperature": 5000, "prior_std": 2.0}

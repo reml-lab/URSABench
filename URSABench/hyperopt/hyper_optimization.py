@@ -16,7 +16,7 @@ from gpytorch.likelihoods.gaussian_likelihood import (
 from gpytorch.mlls import ExactMarginalLogLikelihood
 from gpytorch.priors.torch_priors import GammaPrior
 
-from . import util
+from .. import util
 
 import json
 

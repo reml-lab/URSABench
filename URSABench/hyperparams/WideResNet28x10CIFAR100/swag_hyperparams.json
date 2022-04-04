@@ -1,0 +1,2 @@
+{"lr_init": 0.05, "swag_lr": 0.05, "swag_wd": 0.0005, "momentum": 0.9, "burn_in_epochs": 1, "num_samples": 50, "num_iterates": 140}
+
