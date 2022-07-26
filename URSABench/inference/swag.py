@@ -82,19 +82,19 @@ class SWAG(SWA):
                         self._collect_model()
                 self.burnt_in = True
                 _, self.weight_variance = self._get_mean_and_variance()
-                # if full_cov is False:
-                #     weight_sample = torch.normal(self.weight_mean, torch.sqrt(self.weight_variance))
-                # else:
-                #     var_sample = self.weight_variance.sqrt() * torch.randn_like(self.weight_variance,
-                #                                                                 requires_grad=False)
-                #     cov_sample = self.swag_model.subspace.cov_mat_sqrt.t().matmul(
-                #         self.swag_model.subspace.cov_mat_sqrt.new_empty(
-                #             (self.swag_model.subspace.cov_mat_sqrt.size(0),), requires_grad=False
-                #         ).normal_()
-                #     )
-                #     cov_sample /= (self.swag_model.subspace.max_rank - 1) ** 0.5
-                #     rand_sample = var_sample + cov_sample
-                #     weight_sample = self.weight_mean + rand_sample
+                 if full_cov is False:
+                     weight_sample = torch.normal(self.weight_mean, torch.sqrt(self.weight_variance))
+                 else:
+                     var_sample = self.weight_variance.sqrt() * torch.randn_like(self.weight_variance,
+                                                                                 requires_grad=False)
+                     cov_sample = self.swag_model.subspace.cov_mat_sqrt.t().matmul(
+                         self.swag_model.subspace.cov_mat_sqrt.new_empty(
+                             (self.swag_model.subspace.cov_mat_sqrt.size(0),), requires_grad=False
+                         ).normal_()
+                     )
+                     cov_sample /= (self.swag_model.subspace.max_rank - 1) ** 0.5
+                     rand_sample = var_sample + cov_sample
+                     weight_sample = self.weight_mean + rand_sample
                 weight_sample = self.weight_mean
                 offset = 0
                 for param in self.swag_model.parameters():
@@ -102,19 +102,19 @@ class SWAG(SWA):
                     offset += param.numel()
             else:
                 assert (self.burnt_in is True)
-                # if full_cov is False:
-                #     weight_sample = torch.normal(self.weight_mean, torch.sqrt(self.weight_variance))
-                # else:
-                #     var_sample = self.weight_variance.sqrt() * torch.randn_like(self.weight_variance,
-                #                                                                 requires_grad=False)
-                #     cov_sample = self.swag_model.subspace.cov_mat_sqrt.t().matmul(
-                #         self.swag_model.subspace.cov_mat_sqrt.new_empty(
-                #             (self.swag_model.subspace.cov_mat_sqrt.size(0),), requires_grad=False
-                #         ).normal_()
-                #     )
-                #     cov_sample /= (self.swag_model.subspace.max_rank - 1) ** 0.5
-                #     rand_sample = var_sample + cov_sample
-                #     weight_sample = self.weight_mean + rand_sample
+                 if full_cov is False:
+                     weight_sample = torch.normal(self.weight_mean, torch.sqrt(self.weight_variance))
+                 else:
+                     var_sample = self.weight_variance.sqrt() * torch.randn_like(self.weight_variance,
+                                                                                 requires_grad=False)
+                     cov_sample = self.swag_model.subspace.cov_mat_sqrt.t().matmul(
+                         self.swag_model.subspace.cov_mat_sqrt.new_empty(
+                             (self.swag_model.subspace.cov_mat_sqrt.size(0),), requires_grad=False
+                         ).normal_()
+                     )
+                     cov_sample /= (self.swag_model.subspace.max_rank - 1) ** 0.5
+                     rand_sample = var_sample + cov_sample
+                     weight_sample = self.weight_mean + rand_sample
                 weight_sample = self.weight_mean
                 offset = 0
                 for param in self.swag_model.parameters():
