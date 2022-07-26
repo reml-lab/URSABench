@@ -1,7 +1,7 @@
 # URSABench
-This repository contains the PyTorch implementation for the paper "URSABench: Comprehensive Benchmarking of Approximate Bayesian Inference Methods for Deep Neural Networks" by [Meet P. Vadera](https://meetvadera.github.io), [Adam D. Cobb](https://adamcobb.github.io/), [Brian Jalaian](https://brianjalaian.netlify.app/), and [Benjamin M. Marlin](https://people.cs.umass.edu/~marlin).
+This repository contains the PyTorch implementation for the paper "URSABench: A System for Comprehensive Benchmarking of Bayesian Deep Neural Network Models and Inference methods" by [Meet P. Vadera](https://meetvadera.github.io), [Jinyang Li](https://scholar.google.com/citations?hl=en&user=VbeL3UUAAAAJ), [Adam D. Cobb](https://adamcobb.github.io/), [Brian Jalaian](https://brianjalaian.netlify.app/), [Tarek Abdelzaher](http://abdelzaher.cs.illinois.edu/) and [Benjamin M. Marlin](https://people.cs.umass.edu/~marlin).
 
-This paper will be presented at the ICML '20 Workshop on [Uncertainty and Robustness in Deep Learning](https://sites.google.com/view/udlworkshop2020/home). More updates to this repo will follow soon!
+This paper will be presented at [MLSys '22](https://mlsys.org/). An initial version of this paper was presented at ICML '20 Workshop on [Uncertainty and Robustness in Deep Learning](https://sites.google.com/view/udlworkshop2020/home). More updates to this repo will follow soon!
 
 ## Code references:
 
@@ -18,12 +18,16 @@ This paper will be presented at the ICML '20 Workshop on [Uncertainty and Robust
 
 Please cite our work if you find this approach useful in your research:
 ```bibtex
-@article{Vadera2020URSABench,
-  title={URSABench: Comprehensive Benchmarking of Approximate Bayesian Inference Methods for Deep Neural Networks},
-  author={Vadera, Meet P. and Cobb, Adam D. and Jalaian, Brian and Marlin, Benjamin M.},
-  journal={arXiv preprint arXiv:2007.04466},
-  year={2020}
-}
+@inproceedings{MLSYS2022_3ef81541,
+	author = {Vadera, Meet P. and Li, Jinyang and Cobb, Adam and Jalaian, Brian and Abdelzaher, Tarek and Marlin, Benjamin},
+	booktitle = {Proceedings of Machine Learning and Systems},
+	editor = {D. Marculescu and Y. Chi and C. Wu},
+	pages = {217--237},
+	title = {URSABench: A System for Comprehensive Benchmarking of Bayesian Deep Neural Network Models and Inference methods},
+	url = {https://proceedings.mlsys.org/paper/2022/file/3ef815416f775098fe977004015c6193-Paper.pdf},
+	volume = {4},
+	year = {2022},
+	bdsk-url-1 = {https://proceedings.mlsys.org/paper/2022/file/3ef815416f775098fe977004015c6193-Paper.pdf}}
 ```
 
 ## Acknowledgements
