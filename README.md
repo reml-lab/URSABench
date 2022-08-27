@@ -1,7 +1,23 @@
 # URSABench
 This repository contains the PyTorch implementation for the paper "URSABench: A System for Comprehensive Benchmarking of Bayesian Deep Neural Network Models and Inference methods" by [Meet P. Vadera](https://meetvadera.github.io), [Jinyang Li](https://scholar.google.com/citations?hl=en&user=VbeL3UUAAAAJ), [Adam D. Cobb](https://adamcobb.github.io/), [Brian Jalaian](https://brianjalaian.netlify.app/), [Tarek Abdelzaher](http://abdelzaher.cs.illinois.edu/) and [Benjamin M. Marlin](https://people.cs.umass.edu/~marlin).
 
-This paper will be presented at [MLSys '22](https://mlsys.org/). An initial version of this paper was presented at ICML '20 Workshop on [Uncertainty and Robustness in Deep Learning](https://sites.google.com/view/udlworkshop2020/home). More updates to this repo will follow soon!
+This paper will be presented at [MLSys '22](https://mlsys.org/). An initial version of this paper was presented at ICML '20 Workshop on [Uncertainty and Robustness in Deep Learning](https://sites.google.com/view/udlworkshop2020/home). 
+
+## Folder Structure & Usage
+
+URSABench (`URSABench/`) consists of the following main components:
+
+* `inference/`: This folder consists of all the approximate inference techniques. The `inference/inference_base.py` lays out the basic functions that are used for all inference methods.  
+
+* `hyperopt/`: This is the hyperparameter optimization module. There are three main hyperparameter optimization classes included: `RandomSearch`, `GridSearch`, and `BayesOpt`.
+
+* `models/`: This contains some pre-defined model architectures. 
+
+* `tasks/`: This module contains evaluation tasks. Files with the suffix `_distilled.py` contain tasks for the distilled models. 
+
+* `trtprof/`: This module contains the code for run-time latency profiling using ONNX and NVIDIA TensorRT optimization. Note that the TensorRT optimizations are done on NVIDIA Jetson devices directly. 
+
+We provide a notebook under `examples/` to illustrate how to use URSABench over a standard PyTorch model. This notebook is also available on Google Colab: https://colab.research.google.com/drive/174Urpg2nAc8C4LgBsynt8oiNwjvxJ9Yh?usp=sharing.
 
 ## Code references:
 
